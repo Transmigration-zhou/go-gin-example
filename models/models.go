@@ -55,5 +55,10 @@ func init() {
 }
 
 func CloseDB() {
-	defer db.Close()
+	defer func(db *gorm.DB) {
+		err := db.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(db)
 }
